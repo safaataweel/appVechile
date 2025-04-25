@@ -83,7 +83,7 @@ useEffect(() => {
         profile_picture: image, // could send base64 or URL
       };
 
-      const response = await axios.put('http://172.19.20.117:5000/profile/edit', payload, {
+      const response = await axios.put(`${config.apiUrl}/profile/edit`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
