@@ -11,10 +11,11 @@ import Intro3 from './Screen/Intro/IntroScreen3';
 import Login from './Screen/Login/Login';
 import RoleSelection from './Screen/RoleSelection/RoleSelection';
 import SignUp from './Screen/SignUp/SignUp';
+
 //import WorkingHours from './Screen/WorkingHours/WorkingHours';
 import ProfilePicture from './Screen/ProfilePicture/ProfilePicture';
 import Home from './Screen/Home/Home';
-import Search from './Screen/Search/Search'; // Create this screen
+
 import Profile from './Screen/Profile/Profile';
 import Garage from './Screen/Garage/Garage';
 import EditProfile from './Screen/EditProfile/EditProfile';
@@ -66,8 +67,6 @@ function BottomTabs({ route }) {
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Search') {
-            iconName = focused ? 'search' : 'search-outline';
           } else if (route.name==='booking'){
             iconName = focused ? 'book' : 'book-outline';
           }else if (route.name === 'Profile') {
@@ -78,7 +77,7 @@ function BottomTabs({ route }) {
       })}
     >
       <Tab.Screen name="Home" children={() => <Home route={{ params: { role, profilePicture } }} />} />
-      <Tab.Screen name="Search" component={Search} />
+      
       {/* <Tab.Screen name="booking" component={CurrentBookingScreen} options={{ title: 'Current Booking' }} /> */}
       <Tab.Screen name="Profile" component={ProfileNavigator} />
      

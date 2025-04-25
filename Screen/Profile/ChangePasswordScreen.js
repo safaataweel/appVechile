@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // assuming token is stored here
-
+import { config } from '../../config'; // for API URL
 const ChangePasswordScreen = ({ route, navigation }) => {
   const { userId } = route.params;
   const [current, setCurrent] = useState('');
@@ -24,7 +24,7 @@ const ChangePasswordScreen = ({ route, navigation }) => {
         return;
       }
   
-      const res = await axios.post(`http://172.19.20.117:5000/changePassword/reset-password`, {
+      const res = await axios.post(`${config.apiUrl}/changePassword/reset-password`, {
         userId,
         currentPassword: current,
         newPassword: newPass,

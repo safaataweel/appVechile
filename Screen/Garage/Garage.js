@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-
+import { config } from '../../config'; // for API URL
 const Garage = ({ navigation }) => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ const Garage = ({ navigation }) => {
       const token = await AsyncStorage.getItem('accessToken');
       const userId = await AsyncStorage.getItem('userId');
 
-      const res = await axios.get(`http://172.19.20.117:5000/vehicle/vehicles/${userId}?type=customer`, {
+      const res = await axios.get(`${config.apiUrl}/vehicle/vehicles/${userId}?type=customer`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,7 +47,7 @@ const Garage = ({ navigation }) => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
 
-      await axios.delete(`http://172.19.20.117:5000/vehicle/vehicles/${vehicleId}`, {
+      await axios.delete(`${config.apiUrl}/vehicle/vehicles/${vehicleId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

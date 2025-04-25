@@ -17,7 +17,7 @@ import Logo from '../../assets/Logo/LogoVEESERV-Blue.png';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native'; // أضف هذا في الأعلى
-import { config } from '../../config';
+import { config } from '../../config'; // for API URL
 
 const Login = ({ navigation }) => {
 
@@ -238,7 +238,7 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={{ color: 'blue' }}>Forgot Password?</Text>
+        <Text style={{ color: 'blue', textAlign: 'center', marginVertical: 5 }}>Forgot Password?</Text>
       </TouchableOpacity>
 
         <Text style={styles.footerText}>

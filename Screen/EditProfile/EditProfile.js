@@ -15,7 +15,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // assuming token is stored here
 import { useEffect } from 'react';
-
+import { config } from '../../config'; // for API URL
 const EditProfile = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
 const [lastName, setLastName] = useState('');
@@ -29,7 +29,7 @@ useEffect(() => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
 
-      const response = await axios.get('http://172.19.20.117:5000/myprofile', {
+      const response = await axios.get(`${config.apiUrl}/myprofile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import Colors from '../../Components/Colors/Colors';
+import { config } from '../../config'; // for API URL
 
 const ResetPasswordScreen = ({ route, navigation }) => {
   const [newPassword, setNewPassword] = useState('');
@@ -15,7 +16,7 @@ const ResetPasswordScreen = ({ route, navigation }) => {
     console.log('Sending new password:', newPassword);  // Log new password to ensure it's correct
   
     try {
-      const response = await axios.post('http://172.19.20.117:5000/resetpassword/reset-password', {
+      const response = await axios.post(`${config.apiUrl}/resetpassword/reset-password`, {
         token: token,  // Ensure token is sent correctly
         new_password: newPassword  // Send the new password
       });

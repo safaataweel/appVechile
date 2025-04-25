@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';  // for making API calls
 import Colors from '../../Components/Colors/Colors';
+import { config } from '../../config'; // for API URL
+
 const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -15,7 +17,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
     setIsLoading(true);
   
     try {
-      const response = await axios.post('http://172.19.20.117:5000/resetpsword/forgot-password', {
+      const response = await axios.post(`${config.apiUrl}:5000/resetpsword/forgot-password`, {
         email_address: email,
       });
   

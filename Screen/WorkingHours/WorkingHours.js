@@ -6,7 +6,7 @@ import Colors from '../../Components/Colors/Colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker"; // Import the modal date-time picker
 import moment from 'moment'; // To handle formatting of time
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { config } from '../../config'; // For API URL
 const { width, height } = Dimensions.get('window');
 
 const WorkingHours = ({ navigation, route }) => {
@@ -44,7 +44,7 @@ const WorkingHours = ({ navigation, route }) => {
       // 🧠 Convert the object into a string like "Mon-Fri: 9am - 5pm"
       const workingHoursSummary = summarizeWorkingHours(workingHours);
   
-      const response = await axios.put('http://172.19.20.117:5000/profile/mechanic/working-hours', {
+      const response = await axios.put(`${config.apiUrl}/profile/mechanic/working-hours`, {
         working_day_hours: workingHoursSummary,
       }, {
         headers: {

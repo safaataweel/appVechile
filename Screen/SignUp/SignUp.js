@@ -17,7 +17,7 @@ import Colors from '../../Components/Colors/Colors';
 import { Ionicons } from '@expo/vector-icons'; // For the eye and location icons
 import * as Location from 'expo-location'; // For geolocation
 import Logo from '../../assets/Logo/LogoVEESERV-Blue.png'; // Replace with your logo image path
-
+import { config } from '../../config'; // For API URL
 
 import { useEffect } from 'react';
 
@@ -176,8 +176,8 @@ const handleGetLocation = async () => {
   
       const endpoint =
         role === 'Customer'
-          ? 'http://192.168.0.108:5000/customer/signup'
-          : 'http://192.168.0.108:5000/mechanic/signup';
+          ? `${config.apiUrl}/customer/signup`
+          : `${config.apiUrl}/mechanic/signup`;
   
       const response = await fetch(endpoint, {
         method: 'POST',

@@ -10,7 +10,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Dropdown } from 'react-native-element-dropdown';
-
+import { config } from '../../config'; // for API URL
 const AddCarScreen = ({ navigation }) => {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -38,35 +38,35 @@ const AddCarScreen = ({ navigation }) => {
 
   const fetchMakes = async () => {
     try {
-      const res = await axios.get('http://172.19.20.117:5000/api/makes');
+      const res = await axios.get(`${config.apiUrl}/api/makes`);
       setMakes(res.data.map(m => ({ label: m.make, value: m.make })));
     } catch (e) { console.error(e); }
   };
 
   const fetchModels = async make => {
     try {
-      const res = await axios.get(`http://172.19.20.117:5000/api/models?make=${make}`);
+      const res = await axios.get(`${config.apiUrl}/api/models?make=${make}`);
       setModels(res.data.map(m => ({ label: m.model, value: m.model })));
     } catch (e) { console.error(e); }
   };
 
   const fetchYears = async (make, model) => {
     try {
-      const res = await axios.get(`http://172.19.20.117:5000/api/years?make=${make}&model=${model}`);
+      const res = await axios.get(`${config.apiUrl}/api/years?make=${make}&model=${model}`);
       setYears(res.data.map(y => ({ label: String(y.year), value: y.year })));
     } catch (e) { console.error(e); }
   };
 
   const fetchTransmissions = async (make, model, year) => {
     try {
-      const res = await axios.get(`http://172.19.20.117:5000/api/transmissions?make=${make}&model=${model}&year=${year}`);
+      const res = await axios.get(`${config.apiUrl}/api/transmissions?make=${make}&model=${model}&year=${year}`);
       setTransmissions(res.data.map(t => ({ label: t.transmission, value: t.transmission })));
     } catch (e) { console.error(e); }
   };
 
   const fetchFuelTypes = async (make, model, year) => {
     try {
-      const res = await axios.get(`http://172.19.20.117:5000/api/fuel-types?make=${make}&model=${model}&year=${year}`);
+      const res = await axios.get(`${config.apiUrl}/api/fuel-types?make=${make}&model=${model}&year=${year}`);
       setFuelTypes(res.data.map(f => ({ label: f.fuel_type, value: f.fuel_type })));
     } catch (e) { console.error(e); }
   };
@@ -86,7 +86,7 @@ const AddCarScreen = ({ navigation }) => {
     };
 
     try {
-      await axios.post('http://172.19.20.117:5000/api/vehicles', carData, {
+      await axios.post(`${config.apiUrl}/api/vehicles`, carData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       Alert.alert('Success', 'Vehicle added!');

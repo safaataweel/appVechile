@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import SignUp from '../SignUp/SignUp';
-
+import { config } from '../../config'; // for API URL
 
 const Profile = ({ navigation }) => {
   const [profile, setProfile] = useState(null);
@@ -24,7 +24,7 @@ const Profile = ({ navigation }) => {
   const fetchProfile = async () => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      const res = await fetch('http://192.168.0.108:5000/myprofile', {
+      const res = await fetch(`${config.apiUrl}/myprofile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
