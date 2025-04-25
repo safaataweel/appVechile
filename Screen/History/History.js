@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
+import { config } from '../../config';
 
 const HistoryScreen = ({ userId }) => {
     const [bookings, setBookings] = useState([]);
@@ -10,7 +11,7 @@ const HistoryScreen = ({ userId }) => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const res = await axios.get(`http://172.19.20.117:5000/history/history/${userId}`);
+                const res = await axios.get(`${config.apiUrl}/history/history/${userId}`);
                 setBookings(res.data);
             } catch (err) {
                 console.error('Failed to load history:', err);
