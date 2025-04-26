@@ -9,8 +9,9 @@ const Colors = {
     red: '#B8001F',
     green: '#387F39',
     lightblue: '#A4C8E1',
-    lightgreen: '#A4E1B8',
     darkblue: '#003B5C',
+    lightgreen: '#A4E1B8',
+    
 
   };
   

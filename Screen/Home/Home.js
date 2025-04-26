@@ -14,7 +14,7 @@ import {
 
 import styles from "./HomeStyle";
 import { Ionicons } from "@expo/vector-icons";
-import WorkshopCard from "../../Components/Intro/WorkshopCard/WorkshopCard";
+import WorkshopCard from "../../Components/WorkshopCard/WorkshopCard";
 import axios from "axios";
 import { config } from "../../config"; // for API URL
 const { width } = Dimensions.get("window");
@@ -177,6 +177,7 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
+      {/* Home Screen */}
       {/* Search Input */}
       <View style={styles.searchContainer}>
         <Ionicons
@@ -245,24 +246,37 @@ const Home = () => {
         </ScrollView>
       )}
 
+      {/* Search Result Screen */}
       {/* Search Results */}
       {isSearching && (
         <View style={styles.searchResultsContainer}>
-          <Text style={styles.searchResultsTitle}>Search Results</Text>
+          <View style={styles.searchResultsHeader}>
+            <Text style={styles.searchResultsTitle}>Search Results</Text>
 
-          {!isLoading && searchResults.length > 0 && (
-            <View style={styles.filterSortRow}>
-              <TouchableOpacity style={styles.sortDropdown}>
-                <Ionicons name="" size={15} color="#333" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.filterButton}
-                onPress={() => setFilterModalVisible(true)}
-              >
-                <Ionicons name="filter-outline" size={18} color="#fff" />
-              </TouchableOpacity>
-            </View>
-          )}
+            {!isLoading && searchResults.length > 0 && (
+              <View style={styles.headerButtonsContainer}>
+                <TouchableOpacity
+                  style={styles.sortButton}
+                  onPress={() => {/* Add sort functionality here */}}
+                >
+                  <Ionicons name="swap-vertical-outline" size={16} color="#086189" />
+                  <Text style={styles.sortButtonText}>Sort</Text>
+                </TouchableOpacity>
+
+                <View style={styles.verticalSeparator} />
+
+                <TouchableOpacity
+                  style={styles.filterButton}
+                  onPress={() => setFilterModalVisible(true)}
+                >
+                  <Ionicons name="filter-outline" size={16} color="#086189" />
+                  <Text style={styles.filterButtonText}>Filter</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+
+          <View style={styles.horizontalSeparator} />
 
           {isLoading ? (
             <View style={styles.loadingContainer}>
@@ -294,6 +308,7 @@ const Home = () => {
         </View>
       )}
 
+      {/* Filter Screen */}
       {/* Filter Modal */}
       <Modal
         visible={filterModalVisible}
