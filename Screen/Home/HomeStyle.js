@@ -160,13 +160,13 @@ export default StyleSheet.create({
 
   filterButtonText: {
     marginLeft: 4,
-    color: '#086189',
+    color: Colors.darkGray,
     fontWeight: 'bold',
   },
 
   sortButtonText: {
     marginLeft: 4,
-    color: '#086189',
+    color: Colors.darkGray,
     fontWeight: 'bold',
   },
 
@@ -269,4 +269,50 @@ export default StyleSheet.create({
   searchResultsScroll: {
     flex: 1,
   },
+
+
+  sortModalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // خلفية شفافة شوي
+  },
+  
+  sortModalCard: {
+    backgroundColor: Colors.white,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    paddingBottom: 40,
+    alignItems: 'center',
+  },
+  
+  sortModalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: Colors.black,
+  },
+  
+  sortOptionsContainer: {
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 12,
+  },
+  
+  sortOptionButton: {
+    width: '90%',
+    backgroundColor: Colors.lightGray,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  
+  sortOptionText: {
+    color: Colors.darkGray,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  
 });

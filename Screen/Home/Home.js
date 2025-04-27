@@ -10,6 +10,8 @@ import {
   ActivityIndicator,
   Switch,
   Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 import styles from "./HomeStyle";
@@ -56,11 +58,14 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const [sortModalVisible, setSortModalVisible] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState(null); // 'low' | 'high'
   const [selectedRating, setSelectedRating] = useState(null); // 1 - 5
   const [selectedDistance, setSelectedDistance] = useState(null); // e.g., 5 km
   const [mobileServiceOnly, setMobileServiceOnly] = useState(false);
   const [originalSearchResults, setOriginalSearchResults] = useState([]); // To store unfiltered results
+  const [selectedSortOption, setSelectedSortOption] = useState(null);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -122,21 +127,37 @@ const Home = () => {
     setIsSearching(false);
   };
 
+  const sortResults = (results, sortOption) => {
+    if (!sortOption) return results;
+    
+    const sorted = [...results];
+    if (sortOption === "lowPrice") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "highPrice") {
+      sorted.sort((a, b) => b.price - a.price);
+    } else if (sortOption === "highRating") {
+      sorted.sort((a, b) => b.rate - a.rate);
+    } else if (sortOption === "nearDistance") {
+      sorted.sort((a, b) => a.distance - b.distance);
+    }
+    return sorted;
+  };
+
+  const applySort = (sortOption) => {
+    const sorted = sortResults(searchResults, sortOption);
+    setSearchResults(sorted);
+    setSelectedSortOption(sortOption);
+  };
+
   const applyFilters = () => {
     // If all filters are null, show all results
-    if (!selectedPrice && !selectedRating && !selectedDistance && !mobileServiceOnly) {
+    if (!selectedRating && !selectedDistance && !mobileServiceOnly) {
       setSearchResults(originalSearchResults);
       setFilterModalVisible(false);
       return;
     }
 
     let filtered = [...originalSearchResults];
-
-    if (selectedPrice === "low") {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (selectedPrice === "high") {
-      filtered.sort((a, b) => b.price - a.price);
-    }
 
     if (selectedRating) {
       filtered = filtered.filter((item) => item.rate >= selectedRating);
@@ -150,10 +171,13 @@ const Home = () => {
       filtered = filtered.filter((item) => item.mobile_service === true);
     }
 
+    // Apply current sort to filtered results
+    filtered = sortResults(filtered, selectedSortOption);
+
     setSearchResults(filtered);
     setFilterModalVisible(false);
   };
-  
+
   const FilterChip = ({ label, selected, onPress }) => (
     <TouchableOpacity
       onPress={onPress}
@@ -268,11 +292,12 @@ const Home = () => {
               <View style={styles.headerButtonsContainer}>
                 <TouchableOpacity
                   style={styles.sortButton}
-                  onPress={() => {/* Add sort functionality here */ }}
+                  onPress={() => setSortModalVisible(true)} // يفتح المودال
                 >
-                  <Ionicons name="swap-vertical-outline" size={16} color="#086189" />
+                  <Ionicons name="swap-vertical-outline" size={16} color={Colors.darkGray} />
                   <Text style={styles.sortButtonText}>Sort</Text>
                 </TouchableOpacity>
+
 
                 <View style={styles.verticalSeparator} />
 
@@ -280,7 +305,7 @@ const Home = () => {
                   style={styles.filterButton}
                   onPress={() => setFilterModalVisible(true)}
                 >
-                  <Ionicons name="filter-outline" size={16} color="#086189" />
+                  <Ionicons name="filter-outline" color={Colors.darkGray} />
                   <Text style={styles.filterButtonText}>Filter</Text>
                 </TouchableOpacity>
               </View>
@@ -317,95 +342,110 @@ const Home = () => {
         </View>
       )}
 
-      {/* Filter Screen */}
-      {/* Filter Modal */}
+
+    {/* Filter Modal */}
+<Modal
+  visible={filterModalVisible}
+  transparent
+  animationType="slide"
+  onRequestClose={() => setFilterModalVisible(false)}
+>
+  <TouchableWithoutFeedback onPress={() => setFilterModalVisible(false)}>
+    <View style={styles.modalOverlay}>
+      <TouchableWithoutFeedback>
+        <View style={styles.modalCard}>
+          <Text style={styles.modalTitle}>Filter Options</Text>
+
+          <Text style={styles.filterLabel}>Minimum Rating</Text>
+          <View style={styles.chipGroup}>
+            {[1, 2, 3, 4, 5].map((rate) => (
+              <FilterChip
+                key={`rating-${rate}`}
+                label={`${rate}★`}
+                selected={selectedRating === rate}
+                onPress={() => {
+                  if (selectedRating === rate) {
+                    setSelectedRating(null);
+                  } else {
+                    setSelectedRating(rate);
+                  }
+                }}
+              />
+            ))}
+          </View>
+
+          <Text style={styles.filterLabel}>Within Distance (km)</Text>
+          <View style={styles.chipGroup}>
+            {[2, 5, 10, 20].map((dist) => (
+              <FilterChip
+                key={`dist-${dist}`}
+                label={`${dist} km`}
+                selected={selectedDistance === dist}
+                onPress={() => {
+                  if (selectedDistance === dist) {
+                    setSelectedDistance(null);
+                  } else {
+                    setSelectedDistance(dist);
+                  }
+                }}
+              />
+            ))}
+          </View>
+
+          <View style={styles.switchRow}>
+            <Text style={styles.filterLabel}>Mobile Service Only</Text>
+            <Switch value={mobileServiceOnly} onValueChange={setMobileServiceOnly} />
+          </View>
+
+          <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
+            <Text style={styles.applyButtonText}>Apply Filters</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
+            <Text style={styles.resetButtonText}>Reset</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
+  </TouchableWithoutFeedback>
+</Modal>
+
+      {/* Sort Modal */}
       <Modal
-        visible={filterModalVisible}
+        visible={sortModalVisible}
         transparent
         animationType="slide"
-        onRequestClose={() => setFilterModalVisible(false)}
+        onRequestClose={() => setSortModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Filter Options</Text>
+        <TouchableWithoutFeedback onPress={() => setSortModalVisible(false)}>
+          <View style={styles.sortModalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.sortModalCard}>
+                <Text style={styles.sortModalTitle}>Sort by</Text>
 
-            <Text style={styles.filterLabel}>Sort by Price</Text>
-            <View style={styles.chipGroup}>
-              <FilterChip 
-                label="Low to High" 
-                selected={selectedPrice === "low"} 
-                onPress={() => {
-                  if (selectedPrice === "low") {
-                    setSelectedPrice(null); // Deselect if already selected
-                  } else {
-                    setSelectedPrice("low"); // Select if not selected
-                  }
-                }} 
-              />
-              <FilterChip 
-                label="High to Low" 
-                selected={selectedPrice === "high"} 
-                onPress={() => {
-                  if (selectedPrice === "high") {
-                    setSelectedPrice(null); // Deselect if already selected
-                  } else {
-                    setSelectedPrice("high"); // Select if not selected
-                  }
-                }} 
-              />
-            </View>
+                <View style={styles.sortOptionsContainer}>
+                  <TouchableOpacity style={styles.sortOptionButton} onPress={() => { setSelectedSortOption('lowPrice'); applySort('lowPrice'); setSortModalVisible(false); }}>
+                    <Text style={styles.sortOptionText}>Price: Low to High</Text>
+                  </TouchableOpacity>
 
-            <Text style={styles.filterLabel}>Minimum Rating</Text>
-            <View style={styles.chipGroup}>
-              {[1, 2, 3, 4, 5].map((rate) => (
-                <FilterChip
-                  key={`rating-${rate}`}
-                  label={`${rate}★`}
-                  selected={selectedRating === rate}
-                  onPress={() => {
-                    if (selectedRating === rate) {
-                      setSelectedRating(null); // Deselect if already selected
-                    } else {
-                      setSelectedRating(rate); // Select if not selected
-                    }
-                  }}
-                />
-              ))}
-            </View>
+                  <TouchableOpacity style={styles.sortOptionButton} onPress={() => { setSelectedSortOption('highPrice'); applySort('highPrice'); setSortModalVisible(false); }}>
+                    <Text style={styles.sortOptionText}>Price: High to Low</Text>
+                  </TouchableOpacity>
 
-            <Text style={styles.filterLabel}>Within Distance (km)</Text>
-            <View style={styles.chipGroup}>
-              {[2, 5, 10, 20].map((dist) => (
-                <FilterChip
-                  key={`dist-${dist}`}
-                  label={`${dist} km`}
-                  selected={selectedDistance === dist}
-                  onPress={() => {
-                    if (selectedDistance === dist) {
-                      setSelectedDistance(null); // Deselect if already selected
-                    } else {
-                      setSelectedDistance(dist); // Select if not selected
-                    }
-                  }}
-                />
-              ))}
-            </View>
+                  <TouchableOpacity style={styles.sortOptionButton} onPress={() => { setSelectedSortOption('highRating'); applySort('highRating'); setSortModalVisible(false); }}>
+                    <Text style={styles.sortOptionText}>Highest Rating</Text>
+                  </TouchableOpacity>
 
-            <View style={styles.switchRow}>
-              <Text style={styles.filterLabel}>Mobile Service Only</Text>
-              <Switch value={mobileServiceOnly} onValueChange={setMobileServiceOnly} />
-            </View>
-
-            <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
-              <Text style={styles.applyButtonText}>Apply Filters</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
-              <Text style={styles.resetButtonText}>Reset</Text>
-            </TouchableOpacity>
+                  <TouchableOpacity style={styles.sortOptionButton} onPress={() => { setSelectedSortOption('nearDistance'); applySort('nearDistance'); setSortModalVisible(false); }}>
+                    <Text style={styles.sortOptionText}>Closest Distance</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
+
 
 
     </View>
