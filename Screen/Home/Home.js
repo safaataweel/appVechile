@@ -17,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import WorkshopCard from "../../Components/WorkshopCard/WorkshopCard";
 import axios from "axios";
 import { config } from "../../config"; // for API URL
+import Colors from "../../Components/Colors/Colors";
 const { width } = Dimensions.get("window");
 
 const categoryColors = [
@@ -122,7 +123,14 @@ const Home = () => {
   };
 
   const applyFilters = () => {
-    let filtered = [...originalSearchResults]; // Use original unfiltered results
+    // If all filters are null, show all results
+    if (!selectedPrice && !selectedRating && !selectedDistance && !mobileServiceOnly) {
+      setSearchResults(originalSearchResults);
+      setFilterModalVisible(false);
+      return;
+    }
+
+    let filtered = [...originalSearchResults];
 
     if (selectedPrice === "low") {
       filtered.sort((a, b) => a.price - b.price);
@@ -135,15 +143,17 @@ const Home = () => {
     }
 
     if (selectedDistance) {
-      filtered = filtered.filter((item) => item.distance <= selectedDistance); // Make sure the result has a 'distance' property
+      filtered = filtered.filter((item) => item.distance <= selectedDistance);
     }
 
     if (mobileServiceOnly) {
-      filtered = filtered.filter((item) => item.mobile_service === true); // Adjust the field name based on your data
+      filtered = filtered.filter((item) => item.mobile_service === true);
     }
 
     setSearchResults(filtered);
+    setFilterModalVisible(false);
   };
+  
   const FilterChip = ({ label, selected, onPress }) => (
     <TouchableOpacity
       onPress={onPress}
@@ -156,7 +166,7 @@ const Home = () => {
           marginBottom: 8,
           minWidth: 70,
           height: 40,
-          backgroundColor: selected ? "#086189" : "#f0f0f0",
+          backgroundColor: selected ? Colors.blue : Colors.lightGray,
           justifyContent: "center",
           alignItems: "center",
         },
@@ -167,6 +177,7 @@ const Home = () => {
       </Text>
     </TouchableOpacity>
   );
+
   const resetFilters = () => {
     setSelectedPrice(null);
     setSelectedRating(null);
@@ -253,11 +264,11 @@ const Home = () => {
           <View style={styles.searchResultsHeader}>
             <Text style={styles.searchResultsTitle}>Search Results</Text>
 
-            {!isLoading && searchResults.length > 0 && (
+            {!isLoading && (
               <View style={styles.headerButtonsContainer}>
                 <TouchableOpacity
                   style={styles.sortButton}
-                  onPress={() => {/* Add sort functionality here */}}
+                  onPress={() => {/* Add sort functionality here */ }}
                 >
                   <Ionicons name="swap-vertical-outline" size={16} color="#086189" />
                   <Text style={styles.sortButtonText}>Sort</Text>
@@ -283,7 +294,7 @@ const Home = () => {
               <ActivityIndicator size="large" color="#000" />
             </View>
           ) : searchResults.length > 0 ? (
-            <ScrollView>
+            <ScrollView style={styles.searchResultsScroll}>
               {searchResults.map((result) => (
                 <WorkshopCard
                   key={`result-${result.service_id}`}
@@ -292,9 +303,7 @@ const Home = () => {
                   rating={result.rate}
                   distance={2}
                   price={result.price}
-                  onPress={() =>
-                    console.log(`Navigate to ${result.workshop_name}`)
-                  }
+                  onPress={() => console.log(`Navigate to ${result.workshop_name}`)}
                 />
               ))}
             </ScrollView>
@@ -322,15 +331,27 @@ const Home = () => {
 
             <Text style={styles.filterLabel}>Sort by Price</Text>
             <View style={styles.chipGroup}>
-              <FilterChip
-                label="Low to High"
-                selected={selectedPrice === "low"}
-                onPress={() => setSelectedPrice("low")}
+              <FilterChip 
+                label="Low to High" 
+                selected={selectedPrice === "low"} 
+                onPress={() => {
+                  if (selectedPrice === "low") {
+                    setSelectedPrice(null); // Deselect if already selected
+                  } else {
+                    setSelectedPrice("low"); // Select if not selected
+                  }
+                }} 
               />
-              <FilterChip
-                label="High to Low"
-                selected={selectedPrice === "high"}
-                onPress={() => setSelectedPrice("high")}
+              <FilterChip 
+                label="High to Low" 
+                selected={selectedPrice === "high"} 
+                onPress={() => {
+                  if (selectedPrice === "high") {
+                    setSelectedPrice(null); // Deselect if already selected
+                  } else {
+                    setSelectedPrice("high"); // Select if not selected
+                  }
+                }} 
               />
             </View>
 
@@ -341,7 +362,13 @@ const Home = () => {
                   key={`rating-${rate}`}
                   label={`${rate}★`}
                   selected={selectedRating === rate}
-                  onPress={() => setSelectedRating(rate)}
+                  onPress={() => {
+                    if (selectedRating === rate) {
+                      setSelectedRating(null); // Deselect if already selected
+                    } else {
+                      setSelectedRating(rate); // Select if not selected
+                    }
+                  }}
                 />
               ))}
             </View>
@@ -353,53 +380,34 @@ const Home = () => {
                   key={`dist-${dist}`}
                   label={`${dist} km`}
                   selected={selectedDistance === dist}
-                  onPress={() => setSelectedDistance(dist)}
+                  onPress={() => {
+                    if (selectedDistance === dist) {
+                      setSelectedDistance(null); // Deselect if already selected
+                    } else {
+                      setSelectedDistance(dist); // Select if not selected
+                    }
+                  }}
                 />
               ))}
             </View>
 
             <View style={styles.switchRow}>
               <Text style={styles.filterLabel}>Mobile Service Only</Text>
-              <Switch
-                value={mobileServiceOnly}
-                onValueChange={setMobileServiceOnly}
-              />
+              <Switch value={mobileServiceOnly} onValueChange={setMobileServiceOnly} />
             </View>
 
-            <TouchableOpacity
-              style={styles.applyButton}
-              onPress={() => {
-                applyFilters();
-                setFilterModalVisible(false);
-              }}
-            >
+            <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
               <Text style={styles.applyButtonText}>Apply Filters</Text>
             </TouchableOpacity>
 
-            {/* Reset Button */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: 20,
-                backgroundColor: "red",
-                borderRadius: 20,
-                width: "20%",
-                height: 50,
-              }}
-            >
-              <TouchableOpacity onPress={resetFilters}>
-                <Text
-                  style={{ color: "white", fontWeight: "bold", padding: 20 }}
-                >
-                  Reset
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
+              <Text style={styles.resetButtonText}>Reset</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
+
+
     </View>
   );
 };

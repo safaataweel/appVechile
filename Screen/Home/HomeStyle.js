@@ -187,79 +187,86 @@ export default StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: Colors.lightblue, // 🌈 your desired background color here
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalCard: {
+    backgroundColor: Colors.white,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingBottom: 20,
+    maxHeight: '85%',
   },
   modalTitle: {
-    marginTop: 70,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  applyButton: {
-    marginTop: 10,
-    backgroundColor: '#086189',
-    padding: 15,
-    borderRadius: 20,
-    alignItems: 'center',
-    Size: 100,
-    width: '100%',
-    height: 50,
-
-  },
-  applyButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  filterOption: {
-    padding: 15,
-    margin: 4,
-    marginTop: 15,
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: '#fff',
-    color: '#333',
-    backgroundColor: "white", // Make sure this is not transparent!
-    height: 45,
-
-  }
-  ,
-  selectedOption: {
-    backgroundColor: '#007bff',
-    color: '#fff',
-    borderColor: '#007bff',
-  },
-  switchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 12,
-  },
-  filterRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 12,
+    color: Colors.black,
+    textAlign: 'center',
+    marginBottom: 20,
   },
   filterLabel: {
-    fontWeight: 'bold',
-    marginBottom: 6,
-    fontcolor: 'blue',
-  },
-  filterSection: {
-    marginBottom: 20, // spacing between filter groups
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: Colors.darkGray,
   },
   chipGroup: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
-    backgroundColor: Colors.lightblue,
-
+    marginBottom: 20,
+    gap: 10,
   },
   chipGroupContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    backgroundColor: Colors.lightblue,
     padding: 10,
     borderRadius: 10,
-    backgroundColor: Colors.lightblue, // light background for under the chips
-    marginBottom: 12,
+    marginBottom: 20,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 15,
+  },
+  applyButton: {
+    backgroundColor: Colors.blue,
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+    width: '100%',
+  },
+  applyButtonText: {
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  resetButton: {
+    marginTop: 15,
+    alignItems: 'center',
+  },
+  resetButtonText: {
+    color: Colors.red,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  filterOption: {
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: Colors.lightGray,
+    borderRadius: 20,
+    backgroundColor: Colors.white,
+  },
+  selectedOption: {
+    backgroundColor: Colors.blue,
+    borderColor: Colors.blue,
+  },
+  searchResultsScroll: {
+    flex: 1,
   },
 });
