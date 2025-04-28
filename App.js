@@ -26,6 +26,7 @@ import ChangePasswordScreen from './Screen/Profile/ChangePasswordScreen';
 //import CurrentBookingScreen from './Screen/Booking/Booking';
 import ForgotPasswordScreen from './Screen/Login/ForgotPasswordScreen'; // Create this screen
 import ResetPasswordScreen from './Screen/Login/ResetPasswordScreen'; // Create this screen
+import Book from './Screen/Book/Book';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -76,7 +77,15 @@ function BottomTabs({ route }) {
         },
       })}
     >
-      <Tab.Screen name="Home" children={() => <Home route={{ params: { role, profilePicture } }} />} />
+      <Tab.Screen 
+        name="Home" 
+        children={({ navigation }) => (
+          <Home 
+            navigation={navigation} 
+            route={{ params: { role, profilePicture } }} 
+          />
+        )} 
+      />
       
       {/* <Tab.Screen name="booking" component={CurrentBookingScreen} options={{ title: 'Current Booking' }} /> */}
       <Tab.Screen name="Profile" component={ProfileNavigator} />
@@ -120,6 +129,7 @@ export default function App() {
         <RootStack.Screen name="MainTabs" component={BottomTabs} />
         <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <RootStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+        <RootStack.Screen name ="Book" component={Book}/>
       </RootStack.Navigator>
     </NavigationContainer>
   );

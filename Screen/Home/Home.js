@@ -49,7 +49,7 @@ const banners = [
   "https://www.steelcobuildings.com/wp-content/uploads/2024/06/AdobeStock_156266430_Preview-e1718286922289.jpeg",
 ];
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -322,14 +322,23 @@ const Home = () => {
             <ScrollView style={styles.searchResultsScroll}>
               {searchResults.map((result) => (
                 <WorkshopCard
-                  key={`result-${result.service_id}`}
-                  image={banners[Math.floor(Math.random() * banners.length)]}
-                  name={result.workshop_name}
-                  rating={result.rate}
-                  distance={2}
-                  price={result.price}
-                  onPress={() => console.log(`Navigate to ${result.workshop_name}`)}
-                />
+                key={`result-${result.service_id}`}
+                //ToDo update this to fetch image from the API
+                image={banners[Math.floor(Math.random() * banners.length)]}
+                //image={result.image}
+                name={result.workshop_name}
+                rating={result.rate}
+                //ToDo update this to fetch distance from the API
+                //distance={result.distance}
+                distance={2}
+                price={result.price}
+                onBookPress={() => navigation.navigate('Book', {
+                  serviceId: result.service_id,
+                  workshopName: result.workshop_name,
+                  price: result.price,
+                  image: result.image,
+                })}
+              />
               ))}
             </ScrollView>
           ) : (

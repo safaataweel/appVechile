@@ -3,10 +3,10 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styles from './WorkshopCardStyle';
 import { Ionicons } from '@expo/vector-icons';
 
-const WorkshopCard = ({ image, name, rating, distance, price, onPress }) => {
+const WorkshopCard = ({ image, name, rating, distance, price, onBookPress }) => {
   return (
     
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <View style={styles.card} >
       <Image source={{ uri: image }} style={styles.image} />
 
       <View style={styles.info}>
@@ -24,12 +24,12 @@ const WorkshopCard = ({ image, name, rating, distance, price, onPress }) => {
         <View style={styles.bottomInfo}>
           <Text style={styles.distance}>{distance} km</Text>
 
-          <TouchableOpacity style={styles.bookButton}>
+          <TouchableOpacity style={styles.bookButton} onPress={onBookPress}>
             <Text style={styles.bookButtonText}>Book</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
     
   );
 };
