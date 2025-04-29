@@ -29,7 +29,7 @@ import ResetPasswordScreen from './Screen/Login/ResetPasswordScreen'; // Create 
 import Book from './Screen/Book/Book';
 import ServicesPage from './Screen/editService/editService'; // Create this screen
 import AddService from './Screen/editService/AddService';
-
+import Certifications from './Screen/editceritification/editceritification';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -49,6 +49,7 @@ function ProfileNavigator() {
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{ title: 'Change Password' }} />
       <Stack.Screen name="ServicesPage" component={ServicesPage} options={{ title: 'Services' }} />
 <Stack.Screen name="AddService" component={AddService} options={{ title: 'Add Service' }} />
+<Stack.Screen name="CertificationScreen" component={Certifications} options={{ title: 'Certification' }} />
     </Stack.Navigator>
   );
 }
