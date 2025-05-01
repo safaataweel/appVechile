@@ -314,5 +314,30 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  categoryChipContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  
+  categoryChip: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: Colors.blue, // لون جذاب للـ chip
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  
+  categoryChipText: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
   
 });

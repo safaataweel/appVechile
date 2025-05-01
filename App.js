@@ -12,7 +12,7 @@ import Login from './Screen/Login/Login';
 import RoleSelection from './Screen/RoleSelection/RoleSelection';
 import SignUp from './Screen/SignUp/SignUp';
 
-//import WorkingHours from './Screen/WorkingHours/WorkingHours';
+import WorkingHours from './Screen/WorkingHours/WorkingHours';
 import ProfilePicture from './Screen/ProfilePicture/ProfilePicture';
 import Home from './Screen/Home/Home';
 
@@ -27,7 +27,9 @@ import ChangePasswordScreen from './Screen/Profile/ChangePasswordScreen';
 import ForgotPasswordScreen from './Screen/Login/ForgotPasswordScreen'; // Create this screen
 import ResetPasswordScreen from './Screen/Login/ResetPasswordScreen'; // Create this screen
 import Book from './Screen/Book/Book';
-
+import ServicesPage from './Screen/editService/editService'; // Create this screen
+import AddService from './Screen/editService/AddService';
+import Certifications from './Screen/editceritification/editceritification';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -41,12 +43,13 @@ function ProfileNavigator() {
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="AddCar" component={AddCarScreen} options={{ title: 'Add Car' }} />
       {/* No need to pass role here, simply navigate */}
-      {/* <Stack.Screen name="WorkingHours" component={WorkingHours} options={{ title: 'Working Hours' }} /> */}
+      <Stack.Screen name="WorkingHours" component={WorkingHours} options={{ title: 'Working Hours' }} />
       <Stack.Screen name="HistoryScreen" component={HistoryScreen} options={{ title: 'History' }} />
       <Stack.Screen name="LanguageScreen" component={LanguageScreen} options={{ title: 'Language' }} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{ title: 'Change Password' }} />
-
-
+      <Stack.Screen name="ServicesPage" component={ServicesPage} options={{ title: 'Services' }} />
+<Stack.Screen name="AddService" component={AddService} options={{ title: 'Add Service' }} />
+<Stack.Screen name="CertificationScreen" component={Certifications} options={{ title: 'Certification' }} />
     </Stack.Navigator>
   );
 }
