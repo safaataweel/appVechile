@@ -189,7 +189,7 @@ export default function App() {
         component={Book}
         options={{ title: "Conform Booking", headerShown: true }}
       />
-        {/* <RootStack.Screen name ="Book" component={Book}/> */}
+       
       </RootStack.Navigator>
     </NavigationContainer>
   );

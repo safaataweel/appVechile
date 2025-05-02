@@ -1,5 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import {Text, View, TextInput, TouchableOpacity, ScrollView, Image, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Dimensions,
+} from "react-native";
 import styles from "./HomeStyle";
 import { Ionicons } from "@expo/vector-icons";
 import WorkshopCard from "../../Components/WorkshopCard/WorkshopCard";
@@ -10,6 +18,7 @@ import Colors from "../../Components/Colors/Colors";
 import SearchResult from "./SearchResult";
 import Filter from "./Filter";
 import Sort from "./Sort";
+import Footer from "../../Components/Footer/Footer ";
 
 const { width } = Dimensions.get("window");
 
@@ -36,13 +45,26 @@ const Home = ({ navigation }) => {
   const [originalSearchResults, setOriginalSearchResults] = useState([]);
   const [selectedSortOption, setSelectedSortOption] = useState(null);
 
+  // Fetch categories from the API and assign colors
+
+  // Fetch categories from the API and assign colors
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/ServiceCategories/categories`);
-        const dataWithColors = response.data.map((cat , index) => ({
+        const response = await axios.get(
+          `${config.apiUrl}/ServiceCategories/categories`
+        );
+        const categoryColors = [
+          Colors.red,
+          Colors.lightblue,
+          Colors.blue,
+          Colors.orange,
+          Colors.green,
+        ];
+
+        const dataWithColors = response.data.map((cat, index) => ({
           ...cat,
-          color: index % 2 === 0 ? Colors.lightblue : Colors.mediumGray,//make one light blue then one dark blue 
+          color: categoryColors[index % categoryColors.length],
         }));
         setCategories(dataWithColors);
       } catch (error) {
@@ -52,6 +74,7 @@ const Home = ({ navigation }) => {
     fetchCategories();
   }, []);
 
+  // Auto-scroll the banner images every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       const nextIndex = (currentIndex + 1) % banners.length;
@@ -97,9 +120,12 @@ const Home = ({ navigation }) => {
     if (!sortOption) return results;
     const sorted = [...results];
     if (sortOption === "lowPrice") sorted.sort((a, b) => a.price - b.price);
-    else if (sortOption === "highPrice") sorted.sort((a, b) => b.price - a.price);
-    else if (sortOption === "highRating") sorted.sort((a, b) => b.rate - a.rate);
-    else if (sortOption === "nearDistance") sorted.sort((a, b) => a.distance - b.distance);
+    else if (sortOption === "highPrice")
+      sorted.sort((a, b) => b.price - a.price);
+    else if (sortOption === "highRating")
+      sorted.sort((a, b) => b.rate - a.rate);
+    else if (sortOption === "nearDistance")
+      sorted.sort((a, b) => a.distance - b.distance);
     return sorted;
   };
 
@@ -145,7 +171,12 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
+        <Ionicons
+          name="search"
+          size={20}
+          color="#999"
+          style={styles.searchIcon}
+        />
         <TextInput
           style={styles.searchInput}
           placeholder="Search Anything..."
@@ -186,6 +217,7 @@ const Home = ({ navigation }) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryContent}
           >
+            {/* TODO: this must show examples to search -- serveses  */}
             {categories.map((item) => (
               <TouchableOpacity
                 key={`category-${item.category_id}`}
@@ -197,11 +229,49 @@ const Home = ({ navigation }) => {
           </ScrollView>
 
           <Text style={styles.sectionTitle}>Categories</Text>
-          {categories.map((item) => (
-            <View key={`category-${item.category_id}`} style={{ marginBottom: 10 }}>
-              <Text style={{ fontSize: 16, color: '#333' }}>{item.category_name}</Text>
-            </View>
+          {categories.map((item, index) => (
+            <TouchableOpacity
+              key={`category-list-${item.category_id}`}
+              style={{
+                marginBottom: 10,
+                marginHorizontal: 20,
+                padding: 12,
+                backgroundColor: "#f8f8f8",
+                borderRadius: 8,
+                flexDirection: "row",
+                alignItems: "center",
+                borderLeftWidth: 4,
+                borderLeftColor: item.color,
+              }}
+              // onPress={() => navigation.navigate('CategoryDetails', { category: item })}
+            >
+              <View
+                style={{
+                  width: 36,
+                  height: 36,
+                  backgroundColor: item.color,
+                  borderRadius: 18,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 12,
+                }}
+              >
+                <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                  {index + 1}
+                </Text>
+              </View>
+              <Text style={{ fontSize: 16, color: "#333", fontWeight: "500" }}>
+                {item.category_name}
+              </Text>
+              <View style={{ flex: 1, alignItems: "flex-end" }}>
+                <Ionicons name="chevron-forward" size={20} color={Colors.mediumGray} />
+              </View>
+            </TouchableOpacity>
+
+            
           ))}
+
+          <Footer />
         </ScrollView>
       )}
 
