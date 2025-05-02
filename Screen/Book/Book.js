@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Colors from '../../Components/Colors/Colors';
@@ -63,12 +64,15 @@ const Book = ({ route }) => {
   return (
     <View style={{ backgroundColor: Colors.white , height: '100%'}}>
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Confirm Your Booking</Text>
+    
 
+        <View style={styles.innercard}>
+         
+          <Text style={styles.label}> {workshopName}</Text>
+        </View>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Workshop</Text>
-        <Text style={styles.value}>{workshopName}</Text>
+        
+        <View style={styles.innercard}>
 
         <Text style={styles.label}>Services</Text>
         {selectedServices.map((service) => (
@@ -86,28 +90,35 @@ const Book = ({ route }) => {
           <Text style={styles.addButtonText}>+ Add Another Service</Text>
         </TouchableOpacity>
 
+        </View>
+
+        <View style={styles.innercard}>
         <Text style={styles.label}>Choose Date</Text>
         <TouchableOpacity onPress={showDatePicker} style={styles.datePicker}>
           <Text style={styles.dateText}>{scheduledDate.toLocaleString()}</Text>
         </TouchableOpacity>
 
+        
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="datetime"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
+          textColor={Platform.OS === 'ios' ? 'black' : undefined} // iOS only
         />
 
+        </View>
+        <View style={styles.innercard}>
         <Text style={styles.label}>Address</Text>
-        <View style={styles.input}>
-          <Text>{street}, {city}</Text>
+        <View style={styles.datePicker}>
+          <Text style={styles.dateText}>{street}, {city}</Text>
         </View>
 
         <TouchableOpacity style={styles.secondaryButton} onPress={() => alert('Coming soon!')}>
           <Text style={styles.secondaryButtonText}>Use My Current Location</Text>
         </TouchableOpacity>
-      </View>
-      
+     
+    </View>
       <View style={styles.priceCard}>
         <Text style={styles.priceLabel}>Total Price</Text>
         <Text style={styles.priceValue}>{totalPrice}₪</Text>
@@ -122,6 +133,18 @@ const Book = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  
+  innercard: {
+    backgroundColor: Colors.lightGray,
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+  },
+  line: {
+    height: 1,
+    backgroundColor: Colors.lightGray,
+    marginVertical: 10,
+  },
   container: {
     padding: 20,
     backgroundColor: Colors.white,
@@ -134,7 +157,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   priceCard: {
-    backgroundColor: Colors.lightGray,
+  //  backgroundColor: Colors.white,
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -150,7 +173,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   card: {
-    backgroundColor: Colors.lightGray,
+   // backgroundColor: Colors.white,
     padding: 16,
     borderRadius: 12,
     marginBottom: 16,
@@ -158,7 +181,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 18,
     color: Colors.darkGray,
-    marginTop: 16,
+    //marginTop: 16,
     marginBottom: 4,
     fontWeight: 'bold',
   },
@@ -171,7 +194,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
-    padding: 12,
+    padding: 8,
     borderRadius: 10,
     marginVertical: 6,
     alignItems: 'center',
@@ -197,14 +220,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   datePicker: {
-    backgroundColor: Colors.white,
-    padding: 12,
+    backgroundColor: Colors.lightGray,
+    //padding: 12,
     borderRadius: 8,
-    marginTop: 8,
+   // marginTop: 8,
   },
   dateText: {
     fontSize: 16,
-    color: Colors.black,
+    color: Colors.green,
   },
   input: {
     backgroundColor: Colors.white,
