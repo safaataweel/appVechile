@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import styles from "./HomeStyle";
 import { Ionicons } from "@expo/vector-icons";
-import WorkshopCard from "../../Components/WorkshopCard/WorkshopCard";
 import { config } from "../../config";
 import axios from "axios";
 import Colors from "../../Components/Colors/Colors";
@@ -20,7 +19,7 @@ import Filter from "./Filter";
 import Sort from "./Sort";
 import Footer from "../../Components/Footer/Footer ";
 import { useFilterLogic } from "./useFilterLogic";
-import { useSortLogic } from "./useSortLogic"
+import { useSortLogic } from "./useSortLogic";
 
 const { width } = Dimensions.get("window");
 
@@ -115,7 +114,13 @@ const Home = ({ navigation }) => {
   };
 
 
-  const { applySort } = useSortLogic(searchResults, setSearchResults, setSelectedSortOption);
+  
+  const { applySort, sortResults } = useSortLogic(
+    searchResults,
+    setSearchResults,
+    setSelectedSortOption
+  );
+  
 
   const {
     selectedRating,

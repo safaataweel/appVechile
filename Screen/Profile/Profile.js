@@ -14,7 +14,7 @@ import styles from './ProfileStyle';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
-import SignUp from '../SignUp/SignUp';
+
 import { config } from '../../config'; // for API URL
 
 const Profile = ({ navigation }) => {
@@ -101,7 +101,7 @@ return (
   <ScrollView style={styles.container}>
     <View style={styles.centerContent}>
       <Image
-        source={{ uri: user.profile_picture || 'https://i.pravatar.cc/150?img=5' }}
+        source={{ uri:  'https://randomuser.me/api/portraits/men/41.jpg' }}
         style={styles.avatar}
       />
       <Text style={styles.name}>{`${user.first_name} ${user.last_name}`}</Text>

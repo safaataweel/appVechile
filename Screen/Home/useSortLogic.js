@@ -20,5 +20,5 @@ export const useSortLogic = (searchResults, setSearchResults, setSelectedSortOpt
     [searchResults, sortResults, setSearchResults, setSelectedSortOption]
   );
 
-  return { applySort };
+  return { applySort, sortResults }; // ✅ أضفنا sortResults هنا
 };
