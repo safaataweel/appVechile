@@ -19,6 +19,8 @@ import SearchResult from "./SearchResult";
 import Filter from "./Filter";
 import Sort from "./Sort";
 import Footer from "../../Components/Footer/Footer ";
+import { useFilterLogic } from "./useFilterLogic";
+import { useSortLogic } from "./useSortLogic"
 
 const { width } = Dimensions.get("window");
 
@@ -39,13 +41,9 @@ const Home = ({ navigation }) => {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState(null);
-  const [selectedRating, setSelectedRating] = useState(null);
-  const [selectedDistance, setSelectedDistance] = useState(null);
-  const [mobileServiceOnly, setMobileServiceOnly] = useState(false);
   const [originalSearchResults, setOriginalSearchResults] = useState([]);
   const [selectedSortOption, setSelectedSortOption] = useState(null);
-
-  // Fetch categories from the API and assign colors
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
   // Fetch categories from the API and assign colors
   useEffect(() => {
@@ -116,60 +114,29 @@ const Home = ({ navigation }) => {
     setIsSearching(false);
   };
 
-  const sortResults = (results, sortOption) => {
-    if (!sortOption) return results;
-    const sorted = [...results];
-    if (sortOption === "lowPrice") sorted.sort((a, b) => a.price - b.price);
-    else if (sortOption === "highPrice")
-      sorted.sort((a, b) => b.price - a.price);
-    else if (sortOption === "highRating")
-      sorted.sort((a, b) => b.rate - a.rate);
-    else if (sortOption === "nearDistance")
-      sorted.sort((a, b) => a.distance - b.distance);
-    return sorted;
-  };
 
-  const applySort = (sortOption) => {
-    const sorted = sortResults(searchResults, sortOption);
-    setSearchResults(sorted);
-    setSelectedSortOption(sortOption);
-  };
+  const { applySort } = useSortLogic(searchResults, setSearchResults, setSelectedSortOption);
 
-  const applyFilters = () => {
-    if (!selectedRating && !selectedDistance && !mobileServiceOnly) {
-      setSearchResults(originalSearchResults);
-      setFilterModalVisible(false);
-      return;
-    }
-
-    let filtered = [...originalSearchResults];
-
-    if (selectedRating) {
-      filtered = filtered.filter((item) => item.rate >= selectedRating);
-    }
-    if (selectedDistance) {
-      filtered = filtered.filter((item) => item.distance <= selectedDistance);
-    }
-    if (mobileServiceOnly) {
-      filtered = filtered.filter((item) => item.mobile_service === true);
-    }
-
-    filtered = sortResults(filtered, selectedSortOption);
-
-    setSearchResults(filtered);
-    setFilterModalVisible(false);
-  };
-
-  const resetFilters = () => {
-    setSelectedPrice(null);
-    setSelectedRating(null);
-    setSelectedDistance(null);
-    setMobileServiceOnly(false);
-    setSearchResults(originalSearchResults);
-  };
+  const {
+    selectedRating,
+    setSelectedRating,
+    selectedDistance,
+    setSelectedDistance,
+    mobileServiceOnly,
+    setMobileServiceOnly,
+    applyFilters,
+    resetFilters,
+  } = useFilterLogic(
+    originalSearchResults,
+    selectedSortOption,
+    setSearchResults,
+    setFilterModalVisible,
+    sortResults
+  );
 
   return (
     <View style={styles.container}>
+      {/* search Container */}
       <View style={styles.searchContainer}>
         <Ionicons
           name="search"
@@ -193,6 +160,7 @@ const Home = ({ navigation }) => {
         )}
       </View>
 
+      {/* Home page  */}
       {!isSearching && (
         <ScrollView style={styles.scrollContent}>
           <ScrollView
@@ -211,6 +179,7 @@ const Home = ({ navigation }) => {
             ))}
           </ScrollView>
 
+          {/* Explore our Services */}
           <Text style={styles.sectionTitle}>Explore our Services</Text>
           <ScrollView
             horizontal
@@ -228,48 +197,90 @@ const Home = ({ navigation }) => {
             ))}
           </ScrollView>
 
+          {/* Categories */}
           <Text style={styles.sectionTitle}>Categories</Text>
-          {categories.map((item, index) => (
+          {categories
+            .slice(0, showAllCategories ? categories.length : 5)
+            .map((item, index) => (
+              <TouchableOpacity
+                key={`category-list-${item.category_id}`}
+                style={{
+                  marginBottom: 10,
+                  marginHorizontal: 20,
+                  padding: 12,
+                  backgroundColor: "#f8f8f8",
+                  borderRadius: 8,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  borderLeftWidth: 4,
+                  borderLeftColor: item.color,
+                }}
+                // TODO onPress={() => navigation.navigate('CategoryDetails', { category: item })}
+              >
+                <View
+                  style={{
+                    width: 34,
+                    height: 34,
+                    backgroundColor: item.color,
+                    borderRadius: 18,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginRight: 12,
+                  }}
+                >
+                  <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                    {index + 1}
+                  </Text>
+                </View>
+                <Text
+                  style={{ fontSize: 14, color: "#333", fontWeight: "500" }}
+                >
+                  {item.category_name}
+                </Text>
+                <View style={{ flex: 1, alignItems: "flex-end" }}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={20}
+                    color={Colors.mediumGray}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))}
+
+          {/* Show More Button */}
+          {categories.length > 5 && (
             <TouchableOpacity
-              key={`category-list-${item.category_id}`}
               style={{
-                marginBottom: 10,
-                marginHorizontal: 20,
-                padding: 12,
-                backgroundColor: "#f8f8f8",
-                borderRadius: 8,
+                alignSelf: "center",
+                padding: 10,
+                marginBottom: 20,
+                backgroundColor: "transparent",
                 flexDirection: "row",
                 alignItems: "center",
-                borderLeftWidth: 4,
-                borderLeftColor: item.color,
               }}
-              // onPress={() => navigation.navigate('CategoryDetails', { category: item })}
+              onPress={() => setShowAllCategories(!showAllCategories)}
             >
-              <View
+              <Text
                 style={{
-                  width: 36,
-                  height: 36,
-                  backgroundColor: item.color,
-                  borderRadius: 18,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginRight: 12,
+                  color: Colors.mediumGray,
+                  fontWeight: "bold",
+                  fontSize: 13,
                 }}
               >
-                <Text style={{ color: "#fff", fontWeight: "bold" }}>
-                  {index + 1}
-                </Text>
-              </View>
-              <Text style={{ fontSize: 16, color: "#333", fontWeight: "500" }}>
-                {item.category_name}
+                {showAllCategories ? "SHOW LESS" : "SHOW MORE"}
               </Text>
-              <View style={{ flex: 1, alignItems: "flex-end" }}>
-                <Ionicons name="chevron-forward" size={20} color={Colors.mediumGray} />
-              </View>
-            </TouchableOpacity>
 
-            
-          ))}
+              <Ionicons
+                name={showAllCategories ? "chevron-up" : "chevron-down"}
+                style={{
+                  marginLeft: 10,
+                  size: 20,
+                  fontWeight: "bold",
+                  color: Colors.mediumGray,
+                }}
+              />
+            </TouchableOpacity>
+          )}
 
           <Footer />
         </ScrollView>

@@ -2,6 +2,9 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity, Switch, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import Colors from '../../Components/Colors/Colors';
 
+
+
+
 const Filter = ({
   visible,
   setVisible,
