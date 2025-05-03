@@ -17,7 +17,7 @@ const MOCK_SERVICES = [
   { id: 4, name: 'Battery Replacement', price: 35 },
 ];
 
-const Book = ({ route }) => {
+const Book = ({ route , navigation  }) => {
   const { workshopName } = route.params;
 
   const [selectedServices, setSelectedServices] = useState([MOCK_SERVICES[0]]);
@@ -52,7 +52,7 @@ const Book = ({ route }) => {
   };
 
   const handleConfirmBooking = () => {
-    console.log('Booking Info:', {
+    navigation.navigate('Payment', {
       workshopName,
       scheduledDate,
       location: `${street}, ${city}`,

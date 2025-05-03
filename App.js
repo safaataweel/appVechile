@@ -30,6 +30,7 @@ import Book from "./Screen/Book/Book";
 import ServicesPage from "./Screen/editService/editService"; // Create this screen
 import AddService from "./Screen/editService/AddService";
 import Certifications from "./Screen/editceritification/editceritification";
+import Payment from "./Screen/Book/Pyment";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -189,7 +190,9 @@ export default function App() {
         component={Book}
         options={{ title: "Conform Booking", headerShown: true }}
       />
-       
+      <RootStack.Screen name="Payment" component={Payment} options={{ title: "Confirm Payment", headerShown: true }} />
+
+
       </RootStack.Navigator>
     </NavigationContainer>
   );
