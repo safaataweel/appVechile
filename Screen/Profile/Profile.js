@@ -32,7 +32,7 @@ const Profile = ({ navigation }) => {
 
       if (!res.ok) throw new Error('Failed to fetch profile');
       const data = await res.json();
-      console.log('Fetched profile:', data);
+       console.log('Fetched profile userId:', data.user_id?.id);
 
       setProfile(data);
     } catch (err) {
@@ -101,13 +101,17 @@ return (
   <ScrollView style={styles.container}>
     <View style={styles.centerContent}>
       <Image
-        source={{ uri:  'https://randomuser.me/api/portraits/men/41.jpg' }}
+        source={{ uri: user.profile_picture || 'https://cdn-icons-png.flaticon.com/512/847/847969.png' }}
+      
         style={styles.avatar}
       />
+    
+
       <Text style={styles.name}>{`${user.first_name} ${user.last_name}`}</Text>
       <Text style={styles.info}>{user.phone_number}</Text>
       <Text style={styles.info}>{user.email_address}</Text>
 
+     {/* {console.log('User id:', user.idx)} */}
       {isMechanic && workshopDetails && (
         <>
           <Text style={styles.info}>Workshop: {workshopDetails.workshop_name}</Text>

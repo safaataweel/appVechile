@@ -104,7 +104,7 @@ const Login = ({ navigation }) => {
      // ✅ هيك تفتح الـ Tabs وكل صفحة توصلها الـ params
      navigation.navigate('MainTabs', {
       role: role || 'Customer',
-      profilePicture: profilePicture || null,
+      // profilePicture: profilePicture || null,
     });
     
 

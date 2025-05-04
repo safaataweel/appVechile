@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Colors from "../../Components/Colors/Colors";
+import { CommonActions } from '@react-navigation/native';
 
 const Payment = ({ route, navigation }) => {
   const { workshopName, scheduledDate, location, services, totalPrice } =
@@ -9,7 +10,22 @@ const Payment = ({ route, navigation }) => {
   const handlePay = () => {
     // TODO: send to backend or mark as paid
     alert("Payment Successful 🎉");
-    navigation.navigate("Home"); // Or a success screen
+    
+    // Reset navigation to the main tabs with Home selected
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'MainTabs',
+            state: {
+              routes: [{ name: 'Home' }],
+              index: 0,
+            },
+          },
+        ],
+      })
+    );
   };
 
   return (
@@ -20,6 +36,8 @@ const Payment = ({ route, navigation }) => {
         <Text style={styles.label}>
           Workshop: <Text style={styles.value}>{workshopName}</Text>
         </Text>
+
+        {/* the datenow is a string ... convert it to a date object if you need to use it  */}
         <Text style={styles.label}>
           Date:{" "}
           <Text style={styles.value}>

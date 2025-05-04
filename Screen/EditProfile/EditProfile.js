@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,49 +7,53 @@ import {
   Image,
   ScrollView,
   Alert,
-  ActivityIndicator
-} from 'react-native';
-import styles from './EditProfileStyle';
-import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // assuming token is stored here
-import { useEffect } from 'react';
-import { config } from '../../config'; // for API URL
+  ActivityIndicator,
+} from "react-native";
+import styles from "./EditProfileStyle";
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { config } from "../../config";
+import Colors from "../../Components/Colors/Colors";
+
 const EditProfile = ({ navigation }) => {
-  const [firstName, setFirstName] = useState('');
-const [lastName, setLastName] = useState('');
-const [email, setEmail] = useState('');
-const [phone, setPhone] = useState('');
-const [image, setImage] = useState(null);
-const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState(""); // New state for address
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-useEffect(() => {
-  const fetchUserProfile = async () => {
-    try {
-      const token = await AsyncStorage.getItem('accessToken');
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = await AsyncStorage.getItem("accessToken");
 
-      const response = await axios.get(`${config.apiUrl}/myprofile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        const response = await axios.get(`${config.apiUrl}/myprofile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      const { user } = response.data;
+        const { user } = response.data;
 
-      setFirstName(user.first_name);
-      setLastName(user.last_name);
-      setEmail(user.email_address);
-      setPhone(user.phone_number);
-      setImage(user.profile_picture); // existing image if any
-    } catch (err) {
-      console.error('Error fetching user profile:', err);
-      Alert.alert('Error', 'Failed to load profile info.');
-    }
-  };
+        setFirstName(user.first_name);
+        setLastName(user.last_name);
+        setEmail(user.email_address);
+        setPhone(user.phone_number);
+        setAddress(user.address || ""); // Set address with fallback to empty string
+        setImage(user.profile_picture);
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
+        Alert.alert("Error", "Failed to load profile info.");
+      }
+    };
 
-  fetchUserProfile();
-}, []);
+    fetchUserProfile();
+  }, []);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -57,14 +61,12 @@ useEffect(() => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
-      base64: true, // 👈 useful if you want to send image directly
+      base64: true,
     });
 
     if (!result.canceled) {
       const asset = result.assets[0];
       setImage(asset.uri);
-      // optionally: set base64 for backend if needed
-      // setImage(`data:image/jpeg;base64,${asset.base64}`);
     }
   };
 
@@ -72,30 +74,37 @@ useEffect(() => {
     setLoading(true);
 
     try {
-      const token = await AsyncStorage.getItem('accessToken'); // ✅ consistent with other fetch
-
+      const token = await AsyncStorage.getItem("accessToken");
 
       const payload = {
         first_name: firstName,
         last_name: lastName,
         email_address: email,
         phone_number: phone,
-        profile_picture: image, // could send base64 or URL
+        address: address, // Include address in payload
+        profile_picture: image,
       };
 
-      const response = await axios.put(`${config.apiUrl}/profile/edit`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.put(
+        `${config.apiUrl}/profile/edit`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      console.log('✅ Profile update response:', response.data);
-      Alert.alert('Success', 'Profile updated!');
+      console.log("✅ Profile update response:", response.data);
+      Alert.alert("Success", "Profile updated!");
       navigation.goBack();
     } catch (error) {
-      console.error('❌ Failed to update profile:', error.response?.data || error.message);
-      Alert.alert('Error', 'Something went wrong!');
+      console.error(
+        "❌ Failed to update profile:",
+        error.response?.data || error.message
+      );
+      Alert.alert("Error", "Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -114,36 +123,70 @@ useEffect(() => {
         )}
       </TouchableOpacity>
 
+      <TouchableOpacity onPress={pickImage}>
+        <Text style={{ 
+          color: Colors.blue, 
+          marginBottom: 30, 
+          alignSelf: 'center',
+          fontSize: 14,
+          fontWeight: '500'
+        }}>
+          Edit Profile Image
+        </Text>
+      </TouchableOpacity>
+
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>First Name</Text>
-        <TextInput
-          style={styles.input}
-          value={firstName}
-          onChangeText={setFirstName}
-        />
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>First Name</Text>
+          <TextInput
+            style={styles.input}
+            value={firstName}
+            onChangeText={setFirstName}
+            placeholder="Enter your first name"
+          />
+        </View>
 
-        <Text style={styles.label}>Last Name</Text>
-        <TextInput
-          style={styles.input}
-          value={lastName}
-          onChangeText={setLastName}
-        />
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Last Name</Text>
+          <TextInput
+            style={styles.input}
+            value={lastName}
+            onChangeText={setLastName}
+            placeholder="Enter your last name"
+          />
+        </View>
 
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            placeholder="Enter your email"
+          />
+        </View>
 
-        <Text style={styles.label}>Phone</Text>
-        <TextInput
-          style={styles.input}
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-        />
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Phone</Text>
+          <TextInput
+            style={styles.input}
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+            placeholder="Enter your phone number"
+          />
+        </View>
+
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>Address</Text>
+          <TextInput
+            style={styles.input}
+            value={address}
+            onChangeText={setAddress}
+            placeholder="Enter your address"
+          />
+        </View>
       </View>
 
       <TouchableOpacity

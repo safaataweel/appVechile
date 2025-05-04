@@ -54,7 +54,7 @@ const Book = ({ route , navigation  }) => {
   const handleConfirmBooking = () => {
     navigation.navigate('Payment', {
       workshopName,
-      scheduledDate,
+      scheduledDate: scheduledDate.toISOString(), 
       location: `${street}, ${city}`,
       services: selectedServices,
       totalPrice,

@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   imagePicker: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   avatar: {
     width: width * 0.3,
@@ -34,23 +34,28 @@ export default StyleSheet.create({
     marginTop: 6,
     fontSize: 12,
   },
+  fieldContainer: {
+    backgroundColor: Colors.lightGray,
+    borderRadius: 10,
+    fontSize: 16,
+    color: Colors.black,
+    marginBottom: 16,
+    padding: 10,
+  },
   inputContainer: {
     marginBottom: 30,
   },
   label: {
     fontSize: 14,
-    color: Colors.darkGray,
+    color: Colors.blue,
     marginBottom: 6,
-    marginLeft: 4,
+    
   },
   input: {
-    backgroundColor: Colors.lightGray,
-    borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+   padding: 5,
     fontSize: 16,
     color: Colors.black,
-    marginBottom: 16,
+ 
   },
   saveButton: {
     backgroundColor: Colors.blue,
