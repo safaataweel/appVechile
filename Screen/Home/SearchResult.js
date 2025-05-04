@@ -4,11 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import WorkshopCard from '../../Components/WorkshopCard/WorkshopCard';
 import Colors from '../../Components/Colors/Colors';
 
-const banners = [
-  "https://www.steelcobuildings.com/wp-content/uploads/2024/06/AdobeStock_156266430_Preview-e1718286922289.jpeg",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScjx6u5FKaBN0-ruxflRpLSztC_4Iuj73PDg&s",
-  "https://www.steelcobuildings.com/wp-content/uploads/2024/06/AdobeStock_156266430_Preview-e1718286922289.jpeg",
-];
 
 const SearchResult = ({
   searchResults,
@@ -18,6 +13,10 @@ const SearchResult = ({
   setSortModalVisible,
   setFilterModalVisible
 }) => {
+
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -51,8 +50,10 @@ const SearchResult = ({
           {searchResults.map((result) => (
             <WorkshopCard
               key={`result-${result.service_id}`}
-              image={banners[Math.floor(Math.random() * banners.length)]}
-              name={result.workshop_name}
+              image={result.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTndajZaCUGn5HCQrAQIS6QBUNU9OZjAgXzDw&s"}
+              serviceName={result.service_name}
+              serviceDescription={result.service_description || ''}
+              workshopName={result.workshop_name}
               rating={result.rate}
               distance={2} // dummy
               price={result.price}
@@ -62,6 +63,17 @@ const SearchResult = ({
                 price: result.price,
                 image: result.image,
               })}
+              onCardPress={() => navigation.navigate('ServiceDetails', {
+                serviceName: result.service_name,
+                workshopName: result.workshop_name,
+                price: result.price,
+                workshopRating: result.rate,
+                image: result.image,
+                serviceDescription: result.service_description ,
+                distance: 2, // dummy
+                
+              })}
+
             />
           ))}
         </ScrollView>

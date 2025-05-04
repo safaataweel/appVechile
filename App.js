@@ -28,6 +28,8 @@ import AddService from './Screen/editService/AddService';
 import Certifications from './Screen/editceritification/editceritification';
 import Book from './Screen/Book/Book';
 import Payment from './Screen/Book/Pyment';
+import ServiceDetails from './Screen/Home/ServiceDetails';
+import WorkshopDetails from './Screen/Home/WorkshopDetails';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -114,7 +116,9 @@ export default function App() {
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         <RootStack.Screen name="IntroFlow" component={IntroNavigator} />
         <RootStack.Screen name="RegFlow" component={RegNavigator} />
-        <RootStack.Screen name="MainTabs" component={BottomTabs} />
+        <RootStack.Screen name="MainTabs" component={BottomTabs} options={{title: 'Back' }}  />
+        <RootStack.Screen name="ServiceDetails" component={ServiceDetails} options={{ headerShown: true, title: 'Service Details' }} /> 
+        <RootStack.Screen name="WorkshopDetails" component={WorkshopDetails} options={{ headerShown: true, title: 'WorkShop Details' }} />                    
         <RootStack.Screen name="Book" component={Book} options={{ headerShown: true, title: 'Confirm Booking' }} />
         <RootStack.Screen name="Payment" component={Payment} options={{ headerShown: true, title: 'Payment' }} />
       </RootStack.Navigator>

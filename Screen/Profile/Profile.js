@@ -32,7 +32,8 @@ const Profile = ({ navigation }) => {
 
       if (!res.ok) throw new Error('Failed to fetch profile');
       const data = await res.json();
-       console.log('Fetched profile userId:', data.user_id?.id);
+      
+       console.log('Fetched profile' );  
 
       setProfile(data);
     } catch (err) {

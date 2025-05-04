@@ -97,6 +97,9 @@ const Home = ({ navigation }) => {
       const response = await axios.get(`${config.apiUrl}/search/search`, {
         params: { searchQuery: text },
       });
+
+      // console.log("Search results response:", response.data);
+
       setOriginalSearchResults(response.data);
       setSearchResults(response.data);
     } catch (error) {
@@ -113,15 +116,12 @@ const Home = ({ navigation }) => {
     setIsSearching(false);
   };
 
-
-  
   const { applySort, sortResults } = useSortLogic(
     searchResults,
     setSearchResults,
     setSelectedSortOption
   );
   
-
   const {
     selectedRating,
     setSelectedRating,

@@ -10,7 +10,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
     marginHorizontal: 10,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.lightGray,
     overflow: 'hidden',
     shadowColor: Colors.lightGray,
     shadowOffset: {
@@ -20,36 +20,37 @@ export default StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 3,
     elevation: 2,
+    // height: 120,
   },
   image: {
     width: 90,
-    height: 90,
+    height: "100%",
     marginRight: 0,
   },
   info: {
     flex: 1,
     justifyContent: 'space-between',
-    height: 90,
+    minHeight: 90, 
+    
     paddingVertical: 10,
     paddingHorizontal: 10,
   },
+  
   topInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   name: {
-    fontSize: 16,
-    //fontWeight: 'bold',
-    color: Colors.black,
-    //flex: 1,
-   // marginRight: 5,
+    fontSize: 12,
+    color: Colors.darkGray,
+    marginRight: 4,
    
   },
   price: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: Colors.black,
+    color: Colors.red,
     //marginRight: 15,
     
   },
@@ -60,13 +61,14 @@ export default StyleSheet.create({
   },
   ratingText: {
     color: Colors.orange,
-    fontSize: 14,
-    marginLeft: 4,
+    fontSize: 12,
+  marginLeft: 2,
   },
   bottomInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 4,
   },
   distance: {
     fontSize: 14,
@@ -83,4 +85,21 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  serviceInfo: {
+    marginTop: 4,
+  },
+  
+  serviceName: {
+    
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: Colors.darkGray,
+  },
+  
+  serviceDescription: {
+    fontSize: 12,
+    color: Colors.mediumGray,
+    
+  },
+  
 });
