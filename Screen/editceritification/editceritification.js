@@ -233,11 +233,19 @@ const Certifications = () => {
     
           {/* ✅ Render Date Picker OUTSIDE modal */}
           <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirmDate}
-            onCancel={() => setDatePickerVisibility(false)}
-          />
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirmDate}
+                onCancel={() => setDatePickerVisibility(false)}
+                // Add these properties to fix the text color issue
+                textColor="#000000" // Black text for iOS
+                isDarkModeEnabled={false}
+                themeVariant="light" // Light theme for iOS
+                // For Android, include theme styling
+                androidPickerMode="spinner" // or 'calendar' or 'default'
+                buttonTextColorIOS="#086189" // Blue for the confirm/cancel buttons on iOS
+                pickerContainerStyleIOS={{backgroundColor: 'white'}} // White background on iOS
+            />
         </View>
       );
     };
