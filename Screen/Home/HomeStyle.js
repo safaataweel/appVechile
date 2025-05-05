@@ -325,7 +325,7 @@ export default StyleSheet.create({
   categoryChip: {
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: Colors.blue, // لون جذاب للـ chip
+    backgroundColor: Colors.blue, 
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },

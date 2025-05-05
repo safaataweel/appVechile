@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, TouchableWithoutFeedback, StyleSheet } from 'react-native';
-import Colors from '../../Components/Colors/Colors';
+import Colors from '../../../Components/Colors/Colors';
 
 const Sort = ({
   visible,

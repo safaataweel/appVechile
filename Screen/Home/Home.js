@@ -15,11 +15,11 @@ import axios from "axios";
 import Colors from "../../Components/Colors/Colors";
 
 import SearchResult from "./SearchResult";
-import Filter from "./Filter";
-import Sort from "./Sort";
+import Filter from "./ResultOperation/Filter";
+import Sort from "./ResultOperation/Sort";
 import Footer from "../../Components/Footer/Footer ";
-import { useFilterLogic } from "./useFilterLogic";
-import { useSortLogic } from "./useSortLogic";
+import { useFilterLogic } from "./ResultOperation/useFilterLogic";
+import { useSortLogic } from "./ResultOperation/useSortLogic";
 
 const { width } = Dimensions.get("window");
 

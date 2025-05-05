@@ -50,28 +50,12 @@ const SearchResult = ({
           {searchResults.map((result) => (
             <WorkshopCard
               key={`result-${result.service_id}`}
-              image={result.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTndajZaCUGn5HCQrAQIS6QBUNU9OZjAgXzDw&s"}
-              serviceName={result.service_name}
-              serviceDescription={result.service_description || ''}
-              workshopName={result.workshop_name}
-              rating={result.rate}
-              distance={2} // dummy
-              price={result.price}
+              data={result}
               onBookPress={() => navigation.navigate('Book', {
-                serviceId: result.service_id,
-                workshopName: result.workshop_name,
-                price: result.price,
-                image: result.image,
+                serviceData: result
               })}
-              onCardPress={() => navigation.navigate('ServiceDetails', {
-                serviceName: result.service_name,
-                workshopName: result.workshop_name,
-                price: result.price,
-                workshopRating: result.rate,
-                image: result.image,
-                serviceDescription: result.service_description ,
-                distance: 2, // dummy
-                
+              onShopPress={() => navigation.navigate('WorkshopDetails', {
+                serviceData: result
               })}
 
             />

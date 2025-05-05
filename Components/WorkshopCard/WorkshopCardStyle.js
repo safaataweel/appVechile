@@ -43,14 +43,14 @@ export default StyleSheet.create({
   },
   name: {
     fontSize: 12,
-    color: Colors.darkGray,
+    color: Colors.shineBlue,
     marginRight: 4,
    
   },
   price: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: Colors.red,
+    color: Colors.black,
     //marginRight: 15,
     
   },

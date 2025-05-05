@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import {
   View,
   Text,
@@ -126,7 +126,27 @@ const Login = ({ navigation }) => {
 
 
   // Focus and Blur
+  useEffect(() => {
+    if (email_address) {
+      Animated.timing(emailAnim, {
+        toValue: 1,
+        duration: 0,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [email_address]);
+  
+  useEffect(() => {
+    if (password) {
+      Animated.timing(passwordAnim, {
+        toValue: 1,
+        duration: 0,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [password]);
 
+  
   const handleFocus = (anim) => {
     Animated.timing(anim, {
       toValue: 1,
