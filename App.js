@@ -16,15 +16,16 @@ import ResetPasswordScreen from './Screen/Login/ResetPasswordScreen';
 import ProfilePicture from './Screen/ProfilePicture/ProfilePicture';
 import Home from './Screen/Home/Home';
 import Profile from './Screen/Profile/Profile';
-import Garage from './Screen/Garage/Garage';
-import EditProfile from './Screen/EditProfile/EditProfile';
-import AddCar from './Screen/Garage/AddCar';
+import Garage from './Screen/Profile/Garage/Garage';
+import EditProfile from './Screen/Profile/EditProfile/EditProfile';
+import AddCar from './Screen/Profile/Garage/AddCar';
 import WorkingHours from './Screen/WorkingHours/WorkingHours';
 import LanguageScreen from './Screen/Language/LanguageScreen';
 import ChangePassword from './Screen/Profile/ChangePasswordScreen';
 import HistoryScreen from './Screen/History/History';
-import ServicesPage from './Screen/editService/editService';
-import AddService from './Screen/editService/AddService';
+//import ServicesPage from './Screen/Profile/EditService/EditService';
+import EditService from './Screen/Profile/EditService/EditService';
+import AddService from './Screen/Profile/EditService/AddService';
 import Certifications from './Screen/editceritification/editceritification';
 import Book from './Screen/Book/Book';
 import Payment from './Screen/Book/Pyment';
@@ -43,12 +44,12 @@ function ProfileNavigator() {
       <Stack.Screen name="Garage" component={Garage} />
       <Stack.Screen name="EditProfile" component={EditProfile} options={{ title: "Edit Profile" }}/>
       <Stack.Screen name="AddCar" component={AddCar} />
-      <Stack.Screen name="WorkingHours" component={WorkingHours} />
+      <Stack.Screen name="WorkingHours" component={WorkingHours} options={{ title: "Working Hours" }}/>
       <Stack.Screen name="LanguageScreen" component={LanguageScreen} options={{ title: "Language" }}/>
       <Stack.Screen name="ChangePassword" component={ChangePassword} 
       options={{title: 'ChangePassword'}}/>
       <Stack.Screen name="HistoryScreen" component={HistoryScreen} />
-      <Stack.Screen name="ServicesPage" component={ServicesPage} />
+      <Stack.Screen name="EditService" component={EditService} options={{ title: "Services" }}/>
       <Stack.Screen name="AddService" component={AddService} options={{title: 'Add Service' }}/>
       <Stack.Screen name="CertificationScreen" component={Certifications} />
     </Stack.Navigator>
@@ -68,7 +69,7 @@ function BottomTabs({ route }) {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
-          else if (route.name === 'Profile') iconName = focused ? 'person' : 'person-outline';
+          else if (route.name === 'ProfileNavigator') iconName = focused ? 'person' : 'person-outline';
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
@@ -79,7 +80,7 @@ function BottomTabs({ route }) {
           <Home navigation={navigation} route={{ params: { role } }} />
         )}
       />
-      <Tab.Screen name="Profile" component={ProfileNavigator} />
+      <Tab.Screen name="ProfileNavigator" component={ProfileNavigator} options={{title: "Profile"}} />
     </Tab.Navigator>
   );
 }

@@ -79,7 +79,7 @@ const Profile = ({ navigation }) => {
       type: 'double',
       items: [
         { icon: 'create-outline', label: 'Edit Profile', action: () => navigation.navigate('EditProfile') },
-        {icon: isMechanic ? 'construct' : 'car', label: isMechanic ? 'Service' : 'Garage', action: () => navigation.navigate(isMechanic ? 'ServicesPage' : 'Garage') },
+        {icon: isMechanic ? 'construct' : 'car', label: isMechanic ? 'Service' : 'Garage', action: () => navigation.navigate(isMechanic ? 'EditService' : 'Garage') },
       ],
     },
     { icon: 'time', label: 'History', action: () => navigation.navigate('HistoryScreen',{ userId: user?.id }) 

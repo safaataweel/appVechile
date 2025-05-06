@@ -10,7 +10,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Dropdown } from 'react-native-element-dropdown';
-import { config } from '../../config'; // for API URL
+import { config } from '../../../config'; // for API URL
 const AddCarScreen = ({ navigation }) => {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
