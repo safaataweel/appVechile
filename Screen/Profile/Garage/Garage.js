@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { config } from '../../config'; // for API URL
+import { config } from '../../../config'; // for API URL
 const Garage = ({ navigation }) => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);

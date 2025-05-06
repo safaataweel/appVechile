@@ -238,11 +238,14 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.grayLight,
     marginVertical: height * 0.02,
   },
+
+
+  
   button: {
     backgroundColor: Colors.blue,
     paddingVertical: height * 0.015,
     width: '100%',
-    borderRadius: 25,
+    borderRadius: 10,
     alignItems: 'center',
     position: 'absolute',
     bottom: height * 0.02,

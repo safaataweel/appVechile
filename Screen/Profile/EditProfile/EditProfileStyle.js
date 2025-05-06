@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import Colors from '../../Components/Colors/Colors';
+import Colors from '../../../Components/Colors/Colors';
 
 const { width, height } = Dimensions.get('window');
 
@@ -62,11 +62,23 @@ export default StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
-    marginHorizontal: 10,
+    //marginHorizontal: 10,
   },
   saveButtonText: {
     color: Colors.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  secondaryButton: {
+    marginTop: 4,
+    backgroundColor: '#ddd',
+    paddingVertical:  3,
+    borderRadius: width * 0.025,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: Colors.black,
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 });

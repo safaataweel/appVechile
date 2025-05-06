@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import api from '../../api';
+
+import api from '../../../api';
 
 const AddService = () => {
   const navigation = useNavigation();

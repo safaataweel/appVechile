@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } from 'react-native';
-import api from '../../api'; // Adjust the import based on your project structure
+import api from '../../../api'; // Adjust the import based on your project structure
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Colors = {
     white: '#FFFFFF',
@@ -18,7 +18,7 @@ const Colors = {
     green: '#387F39',
     lightgreen: '#A4E1B8',
   };
-const EditProfile = () => {
+const EditService = () => {
   const [services, setServices] = useState([]);
   const [workshopId, setWorkshopId] = useState(null);
   const navigation = useNavigation();
@@ -103,7 +103,7 @@ const EditProfile = () => {
   
       {services.length === 0 ? (
         <View style={styles.emptyState}>
-          <Image source={require('../../assets/Icones/serv.png')} style={styles.emptyImage} />
+          <Image source={require('../../../assets/Icones/serv.png')} style={styles.emptyImage} />
           <Text style={styles.noServicesText}>You haven't added any services yet.</Text>
         </View>
       ) : (
@@ -111,7 +111,7 @@ const EditProfile = () => {
           {services.map(service => (
             <View key={service.service_id} style={styles.card}>
               <Image 
-                source={require('../../assets/Icones/serv.png')} 
+                source={require('../../../assets/Icones/serv.png')} 
                 style={styles.image} 
               />
               <View style={styles.info}>
@@ -268,5 +268,5 @@ const styles = StyleSheet.create({
     });
   
   
-  export default EditProfile;
+  export default EditService;
   
